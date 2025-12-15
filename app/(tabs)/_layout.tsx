@@ -28,24 +28,6 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="joystick"
-        options={{
-          title: 'Joystick',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="slingshot"
-        options={{
-          title: 'Slingshot',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
-          ),
-        }}
-      />
     </Tabs>
   );
 }
