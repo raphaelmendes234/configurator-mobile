@@ -35,16 +35,30 @@ npm run reset-project
 
 This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-## Learn more
+## 3D
 
-To learn more about developing your project with Expo, look at the following resources:
+# 1️⃣ Installer Expo GL (WebGL dans Expo)
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+npx expo install expo-gl
 
-## Join the community
+# 2️⃣ Installer Three.js version compatible avec expo-three
 
-Join our community of developers creating universal apps.
+npm install three@0.168.0
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+# 3️⃣ Installer expo-three (en ignorant les peer deps pour éviter le conflit)
+
+npm install expo-three --legacy-peer-deps
+
+# 4️⃣ Installer les types TypeScript pour Three.js
+
+npm install --save-dev @types/three --legacy-peer-deps
+
+# 🤔 Pourquoi
+
+- expo-gl : nécessaire pour GLView
+
+- three@0.168.0 : version downgradée pour être compatible avec expo-three@8.0.0
+
+- expo-three --legacy-peer-deps : wrapper pour créer un renderer WebGL Expo, bypass du conflit de versions
+
+- @types/three : pour le typage TypeScript
