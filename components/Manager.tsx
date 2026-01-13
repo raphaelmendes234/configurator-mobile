@@ -5,13 +5,14 @@ import { connect, disconnect } from '../utils/websocket';
 import { CalibrationProvider } from '@/contexts/CalibrationContext';
 import { IntroScreen } from './IntroScreen';
 import { JoystickScreen } from './JoystickScreen';
+import { JoystickScreenStar } from './JoystickScreenStar';
 import { OutroScreen } from './OutroScreen';
 import { ShowScreen } from './ShowScreen';
 import { SlingshotScreen } from './SlingshotScreen';
 import { TitleScreen } from './TitleScreen';
 import { WaitingScreen } from './WaitingScreen';
 
-type GamePhase = "waiting" | "title" | "intro" | "select" | "throw" | "show" | "outro" | "loading";
+type GamePhase = "waiting" | "title" | "intro" | "select" | "select-star" | "throw" | "show" | "outro" | "loading";
 
 const Manager: React.FC = () => {
   // État pour la phase de jeu (initialisé sur 'loading')
@@ -23,7 +24,7 @@ const Manager: React.FC = () => {
     setErrorMessage(null); // Réinitialiser l'erreur à la réception d'un nouveau message
 
     // Assurez-vous que le message est bien une des phases attendues
-    if (['waiting', 'title', 'intro', 'select', 'throw', 'show', 'outro'].includes(data)) {
+    if (['waiting', 'title', 'intro', 'select', 'select-star', 'throw', 'show', 'outro'].includes(data)) {
       setPhase(data as GamePhase); // Met à jour la phase de jeu
       console.log(`Changement de phase : ${data}`);
     } else {
@@ -55,6 +56,8 @@ const Manager: React.FC = () => {
         return IntroScreen;
       case 'select':
         return JoystickScreen;
+      case 'select-star':
+        return JoystickScreenStar;
       case 'throw':
         return SlingshotScreen;
       case 'show':
