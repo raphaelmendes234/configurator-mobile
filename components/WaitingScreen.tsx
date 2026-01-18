@@ -1,22 +1,15 @@
-// import { Text } from "react-native";
-
-// export function WaitingScreen(){
-//     return (
-//         <Text style={{color: "white"}}>Waiting Screen</Text>
-//     )
-// }
-
-// src/components/WaitingScreen.tsx
-import { useCalibration } from '@/contexts/CalibrationContext';
-import { getHorizontalAngle } from '@/utils/deviceRotation';
-import { radToDeg } from '@/utils/math';
-import { useMotionData } from '@/utils/motionData';
-import React, { useEffect, useState } from 'react';
-import { Button, Text, View } from 'react-native';
+import { useCalibration } from "@/contexts/CalibrationContext";
+import { usePerformCalibration } from "@/hooks/usePerformCalibration";
+import { getHorizontalAngle } from "@/utils/deviceRotation";
+import { radToDeg } from "@/utils/math";
+import { useMotionData } from "@/utils/motionData";
+import React, { useEffect, useState } from "react";
+import { Button, Text, View } from "react-native";
 
 export function WaitingScreen() {
   const motionData = useMotionData();
   const { refAngle, setRefAngle } = useCalibration();
+  const calibrate = usePerformCalibration();
   const [currentAlphaDeg, setCurrentAlphaDeg] = useState<number>(0);
   const [currentHorizontalDeg, setCurrentHorizontalDeg] = useState<number>(0);
 
@@ -30,29 +23,27 @@ export function WaitingScreen() {
     // angle horizontal relatif à la calibration
     const horiz = getHorizontalAngle(motionData, refAngle);
     setCurrentHorizontalDeg(horiz);
-
   }, [motionData, refAngle]);
 
-  const calibrate = () => {
-    if (!motionData || motionData.rotation.alpha == null) return;
-    setRefAngle(radToDeg(motionData.rotation.alpha));
-  };
+  // const calibrate = () => {
+  //   if (!motionData || motionData.rotation.alpha == null) return;
+  //   setRefAngle(radToDeg(motionData.rotation.alpha));
+  // };
 
   return (
     <View style={{ padding: 20 }}>
-      <Text style={{ color: 'white', marginBottom: 10 }}>
-        Waiting Screen
-      </Text>
+      <Text style={{ color: "white", marginBottom: 10 }}>Waiting Screen</Text>
 
-      <Text style={{ color: 'white' }}>
+      <Text style={{ color: "white" }}>
         Alpha actuel : {currentAlphaDeg.toFixed(1)}°
       </Text>
 
-      <Text style={{ color: 'white', marginTop: 6 }}>
-        Angle calibré (refAngle) : {refAngle !== null ? refAngle.toFixed(1) + '°' : "non calibré"}
+      <Text style={{ color: "white", marginTop: 6 }}>
+        Angle calibré (refAngle) :{" "}
+        {refAngle !== null ? refAngle.toFixed(1) + "°" : "non calibré"}
       </Text>
 
-      <Text style={{ color: 'white', marginTop: 6 }}>
+      <Text style={{ color: "white", marginTop: 6 }}>
         Angle horizontal actuel : {currentHorizontalDeg.toFixed(1)}°
       </Text>
 

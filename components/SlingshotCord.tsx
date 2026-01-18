@@ -2,55 +2,61 @@ import { Canvas, Path, Skia } from "@shopify/react-native-skia";
 import { SharedValue, useDerivedValue } from "react-native-reanimated";
 
 type Props = {
-  width: number
-  height: number
-  safeArea: number,
-  fingerPosX: SharedValue<number>
-  fingerPosY: SharedValue<number>
-  circleSize: number
+  width: number;
+  height: number;
+  safeArea: number;
+  fingerPosX: SharedValue<number>;
+  fingerPosY: SharedValue<number>;
+  circleSize: number;
 };
 
-export function SlingshotCord({ width, height, safeArea, fingerPosX, fingerPosY, circleSize }: Props) {
-
-  const path = useDerivedValue(()=> {
-    const path = Skia.Path.Make()
-    path.moveTo(0, safeArea)
-    path.lineTo(width, safeArea)
-    path.close()
-    return path
-  })
+export function SlingshotCord({
+  width,
+  height,
+  safeArea,
+  fingerPosX,
+  fingerPosY,
+  circleSize,
+}: Props) {
+  const path = useDerivedValue(() => {
+    const path = Skia.Path.Make();
+    path.moveTo(0, safeArea);
+    path.lineTo(width, safeArea);
+    path.close();
+    return path;
+  });
 
   const animatedPath = useDerivedValue(() => {
     const p = Skia.Path.Make();
 
-    const startY = safeArea * .5
-    const x = fingerPosX.value
-    const y = fingerPosY.value + circleSize*.5 + 2
+    const startY = safeArea * 0.5;
+    const x = fingerPosX.value;
+    const y = fingerPosY.value + circleSize * 0.5 + 2;
 
     // Départ à gauche
-    p.moveTo(0, startY)
+    p.moveTo(0, startY);
 
     // control point 1
-    const ax = 75
-    const ay = startY - 25
+    const ax = 75;
+    const ay = startY - 25;
 
     // control point 2
-    const bx = (x - width / 2)
-    const by = y
+    const bx = x - width / 2;
+    const by = y;
 
-    p.cubicTo(ax, ay, bx, by, x, y)
+    p.cubicTo(ax, ay, bx, by, x, y);
 
     // control point 3
-    const cx = (x + width / 2)
-    const cy = y
+    const cx = x + width / 2;
+    const cy = y;
 
-    const dx = width - 75
-    const dy = startY - 25
+    const dx = width - 75;
+    const dy = startY - 25;
 
-    p.cubicTo(cx, cy, dx, dy, width, startY)
+    p.cubicTo(cx, cy, dx, dy, width, startY);
 
     return p;
-  }, [fingerPosX, fingerPosY])
+  }, [fingerPosX, fingerPosY]);
 
   const strength = useDerivedValue(() => {
     // Origine où la force = 0
@@ -68,8 +74,8 @@ export function SlingshotCord({ width, height, safeArea, fingerPosX, fingerPosY,
     const s = strength.value; // 0 -> vert, 1 -> rouge
 
     const r = Math.floor(217 + (255 - 217) * s); // 217 -> 255
-    const g = Math.floor(242 - 242 * s);         // 242 -> 0
-    const b = Math.floor(3 - 3 * s);             // 3 -> 0
+    const g = Math.floor(242 - 242 * s); // 242 -> 0
+    const b = Math.floor(3 - 3 * s); // 3 -> 0
 
     return `rgb(${r},${g},${b})`;
   });
@@ -82,12 +88,12 @@ export function SlingshotCord({ width, height, safeArea, fingerPosX, fingerPosY,
         strokeWidth={4}
         color={cordColor}
       />
-      <Path
+      {/* <Path
         path={path}
         color="#daf2033f"
         style="stroke"
         strokeWidth={4}
-      />
+      /> */}
     </Canvas>
   );
 }

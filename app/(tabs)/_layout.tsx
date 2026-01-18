@@ -1,33 +1,19 @@
-import { Tabs } from 'expo-router';
-
-import Ionicons from '@expo/vector-icons/Ionicons';
-
+import { Slot } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, View } from "react-native";
 
 export default function TabLayout() {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: '#d8c622ff',
-        headerStyle: {
-          backgroundColor: '#000000',
-        },
-        headerShown: false,
-        headerShadowVisible: false,
-        headerTintColor: '#fff',
-        tabBarStyle: {
-          backgroundColor: '#000000',
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
-          ),
-        }}
-      />
-    </Tabs>
+    <View style={styles.container}>
+      <StatusBar hidden={true} style="light" />
+      <Slot />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#071031",
+  },
+});

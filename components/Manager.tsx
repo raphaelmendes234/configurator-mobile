@@ -1,18 +1,29 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import { connect, disconnect } from '../utils/websocket';
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Button, StyleSheet, Text, View } from "react-native";
+import { connect, disconnect } from "../utils/websocket";
 
-import { CalibrationProvider } from '@/contexts/CalibrationContext';
-import { IntroScreen } from './IntroScreen';
-import { JoystickScreen } from './JoystickScreen';
-import { JoystickScreenStar } from './JoystickScreenStar';
-import { OutroScreen } from './OutroScreen';
-import { ShowScreen } from './ShowScreen';
-import { SlingshotScreen } from './SlingshotScreen';
-import { TitleScreen } from './TitleScreen';
-import { WaitingScreen } from './WaitingScreen';
+import { CalibrationProvider } from "@/contexts/CalibrationContext";
+import { CalibrateScreen } from "./CalibrateScreen";
+import { IntroScreen } from "./IntroScreen";
+import { JoystickScreen } from "./JoystickScreen";
+import { JoystickScreenStar } from "./JoystickScreenStar";
+import { OutroScreen } from "./OutroScreen";
+import { ShowScreen } from "./ShowScreen";
+import { SlingshotScreen } from "./SlingshotScreen";
+import { TitleScreen } from "./TitleScreen";
+import { WaitingScreen } from "./WaitingScreen";
 
-type GamePhase = "waiting" | "title" | "intro" | "select" | "select-star" | "throw" | "show" | "outro" | "loading";
+type GamePhase =
+  | "waiting"
+  | "title"
+  | "calibrate"
+  | "introduction"
+  | "select"
+  | "select-star"
+  | "throw"
+  | "show"
+  | "outro"
+  | "loading";
 
 const Manager: React.FC = () => {
   // État pour la phase de jeu (initialisé sur 'loading')
@@ -24,7 +35,19 @@ const Manager: React.FC = () => {
     setErrorMessage(null); // Réinitialiser l'erreur à la réception d'un nouveau message
 
     // Assurez-vous que le message est bien une des phases attendues
-    if (['waiting', 'title', 'intro', 'select', 'select-star', 'throw', 'show', 'outro'].includes(data)) {
+    if (
+      [
+        "waiting",
+        "title",
+        "calibrate",
+        "introduction",
+        "select",
+        "select-star",
+        "throw",
+        "show",
+        "outro",
+      ].includes(data)
+    ) {
       setPhase(data as GamePhase); // Met à jour la phase de jeu
       console.log(`Changement de phase : ${data}`);
     } else {
@@ -39,30 +62,32 @@ const Manager: React.FC = () => {
 
     // Fonction de nettoyage : s'exécute lorsque le composant est démonté
     return () => {
-      disconnect(); 
+      disconnect();
       // Si la connexion se ferme, on pourrait aussi réinitialiser la phase ici :
-      // setPhase("loading"); 
+      // setPhase("loading");
     };
   }, [handleMessage]); // handleMessage est stable grâce à useCallback
 
   // 💡 Rendu conditionnel des composants
   const CurrentComponent = useMemo(() => {
     switch (phase) {
-      case 'waiting':
+      case "waiting":
         return WaitingScreen;
-      case 'title':
+      case "title":
         return TitleScreen;
-      case 'intro':
+      case "calibrate":
+        return CalibrateScreen;
+      case "introduction":
         return IntroScreen;
-      case 'select':
+      case "select":
         return JoystickScreen;
-      case 'select-star':
+      case "select-star":
         return JoystickScreenStar;
-      case 'throw':
+      case "throw":
         return SlingshotScreen;
-      case 'show':
+      case "show":
         return ShowScreen;
-      case 'outro':
+      case "outro":
         return OutroScreen;
       default:
         return WaitingScreen;
@@ -72,8 +97,8 @@ const Manager: React.FC = () => {
   return (
     <CalibrationProvider>
       <View style={styles.container}>
-        <Text style={styles.status}>Phase Actuelle: {phase.toUpperCase()}</Text>
-        
+        {/* <Text style={styles.status}>Phase Actuelle: {phase.toUpperCase()}</Text> */}
+
         {/* 4. Affichage du composant sélectionné */}
         <CurrentComponent />
 
@@ -85,15 +110,26 @@ const Manager: React.FC = () => {
         {/* --- Section de Contrôle des Phases (Boutons) --- */}
         <View style={styles.controls}>
           <Text style={styles.controlTitle}>Contrôle Dev/Test :</Text>
-          
-          {/* On crée un tableau des phases pour itérer */}
-          {(['waiting', 'start', 'select', 'throw', 'end'] as GamePhase[]).map((p) => (
+
+          {(
+            [
+              "waiting",
+              "title",
+              "calibrate",
+              "introduction",
+              "select",
+              "select-star",
+              "throw",
+              "show",
+              "outro",
+            ] as GamePhase[]
+          ).map((p) => (
             <View key={p} style={styles.buttonWrapper}>
               <Button
                 title={p.toUpperCase()}
                 // 💡 L'action du bouton appelle directement setPhase
                 onPress={() => setPhase(p)}
-                color={phase === p ? '#4CAF50' : '#2196F3'} // Couleur verte si c'est la phase active
+                color={phase === p ? "#4CAF50" : "#2196F3"} // Couleur verte si c'est la phase active
                 disabled={phase === p}
               />
             </View>
@@ -107,49 +143,55 @@ const Manager: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "transparent",
   },
   status: {
     marginBottom: 20,
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   text: {
     fontSize: 16,
     marginVertical: 10,
   },
   loading: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   error: {
-    color: 'red',
+    color: "red",
     marginTop: 10,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   controls: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
     marginTop: 40,
     paddingTop: 10,
     borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    width: '100%',
-    alignItems: 'center',
-    flexDirection: 'row', // Pour aligner les boutons horizontalement
-    flexWrap: 'wrap', // Pour permettre le retour à la ligne
-    justifyContent: 'center',
+    borderTopColor: "#ccc",
+    width: "100%",
+    alignItems: "center",
+    flexDirection: "row", // Pour aligner les boutons horizontalement
+    flexWrap: "wrap", // Pour permettre le retour à la ligne
+    justifyContent: "center",
+    zIndex: 100,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   controlTitle: {
-    width: '100%',
-    textAlign: 'center',
+    width: "100%",
+    textAlign: "center",
     marginBottom: 10,
-    fontWeight: 'bold',
-    color: '#555',
+    fontWeight: "bold",
+    color: "#555",
   },
   buttonWrapper: {
     margin: 5,
     minWidth: 80, // Assurer que les boutons ont une taille minimale
-  }
+  },
 });
 
 export default Manager;

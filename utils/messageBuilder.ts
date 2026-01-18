@@ -1,27 +1,25 @@
 // Joystick phase
 export function buildPhase1Message(state: string, index: number) {
-  const device = "mobile"
-  const phase = "selection"
-  
-  // console.log("SELECTION: " + state + " " + index)
+  const device = "mobile";
+  const phase = "selection";
 
   return {
     device,
     phase,
     state,
-    index
+    index,
   };
 }
 
-
 // Slingshot
-export function buildPhase2Message(state: string, strength: number,angleH: number,angleV: number) {
-  const device = "mobile"
-  const phase = "throwing"
-
-  // console.log("SLINGSHOT: " + "strength " + strength)
-  // console.log("SLINGSHOT: " + "angleH " + angleH)
-  // console.log("SLINGSHOT: " + "angleV " + angleV)
+export function buildPhase2Message(
+  state: string,
+  strength: number,
+  angleH: number,
+  angleV: number,
+) {
+  const device = "mobile";
+  const phase = "throwing";
 
   return {
     device,
@@ -29,6 +27,42 @@ export function buildPhase2Message(state: string, strength: number,angleH: numbe
     state,
     strength,
     angleH,
-    angleV
+    angleV,
+  };
+}
+
+// skip intro
+export function buildSkipIntroMessage(state: string) {
+  const device = "mobile";
+  const phase = "intro";
+
+  return {
+    device,
+    phase,
+    state,
+  };
+}
+
+// skip outro
+export function buildSkipOutroMessage(state: string) {
+  const device = "mobile";
+  const phase = "outro";
+
+  return {
+    device,
+    phase,
+    state,
+  };
+}
+
+// calibrate outro
+export function buildCalibrateMessage(state: string) {
+  const device = "mobile";
+  const phase = "calibrate";
+
+  return {
+    device,
+    phase,
+    state,
   };
 }

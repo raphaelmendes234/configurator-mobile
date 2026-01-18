@@ -1,8 +1,7 @@
-import Manager from '@/components/Manager';
-import { StyleSheet, View } from 'react-native';
+import Manager from "@/components/Manager";
+import { StyleSheet, View } from "react-native";
 
 export default function Index() {
-  
   return (
     <View style={styles.container}>
       {/* <Text style={styles.text}>Hey</Text>
@@ -18,13 +17,10 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: '1rem'
+    backgroundColor: "#071031",
   },
   text: {
     fontSize: 24,
-    color: '#fff',
+    color: "#fff",
   },
 });
