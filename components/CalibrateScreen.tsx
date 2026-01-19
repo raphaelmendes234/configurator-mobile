@@ -164,7 +164,7 @@ export function CalibrateScreen() {
 
             {/* Image 2 : Le texte (Style animé incluant rotation et scale) */}
             <Animated.Image
-              source={require("@/assets/images/buttons/btn-text-intro.png")}
+              source={require("@/assets/images/buttons/btn-text-calibrate.png")}
               style={[
                 btnTextStyle, // Utilisation du style animé
                 { position: "absolute" },
