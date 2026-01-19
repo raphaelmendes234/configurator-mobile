@@ -26,7 +26,7 @@ export function TitleScreen() {
 
   return (
     <Animated.Image
-      source={require("@/assets/images/icon.png")}
+      source={require("@/assets/images/oyo-logo.png")}
       style={[imgStyle, styles.image]}
     ></Animated.Image>
   );
