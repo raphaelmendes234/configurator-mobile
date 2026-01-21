@@ -30,7 +30,7 @@ export function OutroScreen() {
 
   // Positions fixes
   const startX = 100;
-  const startY = height * 0.5;
+  const startY = height - 300;
   const endX = width - 100;
   const endY = startY;
 
@@ -156,7 +156,7 @@ export function OutroScreen() {
               arrowsStyle,
               {
                 position: "absolute",
-                top: height * 0.5 - 50,
+                top: height - 350,
                 left: width * 0.5 - 50,
                 right: 0,
                 height: 100,
