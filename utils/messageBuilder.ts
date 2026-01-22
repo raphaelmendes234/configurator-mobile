@@ -55,6 +55,18 @@ export function buildSkipIntroMessage(state: string) {
   };
 }
 
+// skip show
+export function buildSkipShowMessage(state: string) {
+  const device = "mobile";
+  const phase = "show";
+
+  return {
+    device,
+    phase,
+    state,
+  };
+}
+
 // skip outro
 export function buildSkipOutroMessage(state: string) {
   const device = "mobile";
