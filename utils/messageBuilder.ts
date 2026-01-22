@@ -31,6 +31,18 @@ export function buildPhase2Message(
   };
 }
 
+// skip title
+export function buildSkipTitleMessage(state: string) {
+  const device = "mobile";
+  const phase = "title";
+
+  return {
+    device,
+    phase,
+    state,
+  };
+}
+
 // skip intro
 export function buildSkipIntroMessage(state: string) {
   const device = "mobile";

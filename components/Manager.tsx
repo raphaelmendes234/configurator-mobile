@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { connect, disconnect } from "../utils/websocket";
 
 import { CalibrationProvider } from "@/contexts/CalibrationContext";
@@ -108,7 +108,7 @@ const Manager: React.FC = () => {
         {/* Exemple d'interaction pour tester l'envoi */}
         {/* <Button title="Envoyer 'start'" onPress={() => sendMessage("start")} /> */}
         {/* --- Section de Contrôle des Phases (Boutons) --- */}
-        <View style={styles.controls}>
+        {/* <View style={styles.controls}>
           <Text style={styles.controlTitle}>Contrôle Dev/Test :</Text>
 
           {(
@@ -134,7 +134,7 @@ const Manager: React.FC = () => {
               />
             </View>
           ))}
-        </View>
+        </View> */}
       </View>
     </CalibrationProvider>
   );

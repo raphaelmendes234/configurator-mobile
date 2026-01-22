@@ -2,7 +2,7 @@ import { SoftHaptic, SuccessHaptic } from "@/utils/haptics";
 import { buildPhase1Message } from "@/utils/messageBuilder";
 import { sendMessage } from "@/utils/websocket";
 import { useEffect, useState } from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import {
   Gesture,
   GestureDetector,
@@ -290,11 +290,11 @@ export function JoystickScreen() {
             bgColor={"#071031"}
             scale={wheelScale}
           />
-          <Text
+          {/* <Text
             style={{ color: "white", position: "absolute", top: 50, left: 20 }}
           >
             {debugText}
-          </Text>
+          </Text> */}
 
           {/* Conteneur animé qui suit le doigt */}
           <Animated.View

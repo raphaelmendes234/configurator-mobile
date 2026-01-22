@@ -12,7 +12,6 @@ import {
   Platform,
   Pressable,
   StyleSheet,
-  Text,
   Vibration,
   View,
 } from "react-native";
@@ -34,6 +33,8 @@ import Animated, {
 } from "react-native-reanimated";
 import { ArrowIndicator } from "./ArrowIndicator";
 import { SlingshotCord } from "./SlingshotCord";
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export function SlingshotScreen() {
   const calibrate = usePerformCalibration();
@@ -63,6 +64,7 @@ export function SlingshotScreen() {
   const btnTextScale = useSharedValue(150);
   const succesOpacity = useSharedValue(0);
   const arrowsOpacity = useSharedValue(1);
+  const calibrateOpacity = useSharedValue(1);
   const hasThrown = useSharedValue(false);
 
   // --- Logique Haptique (JS Side) ---
@@ -227,6 +229,7 @@ export function SlingshotScreen() {
       btnScale.value = withTiming(125, { duration: 200 });
       btnTextScale.value = withTiming(50, { duration: 200 });
       arrowsOpacity.value = withTiming(0, { duration: 300 });
+      calibrateOpacity.value = withTiming(0, { duration: 300 });
 
       absX.value = event.absoluteX;
       absY.value = event.absoluteY;
@@ -296,6 +299,8 @@ export function SlingshotScreen() {
         btnScale.value = withSpring(100);
         btnTextScale.value = withSpring(150);
         arrowsOpacity.value = withTiming(1, { duration: 200 });
+        calibrateOpacity.value = withTiming(1, { duration: 200 });
+
         runOnJS(startRotation)();
       }
 
@@ -327,6 +332,10 @@ export function SlingshotScreen() {
 
   const arrowsStyle = useAnimatedStyle(() => ({
     opacity: arrowsOpacity.value,
+  }));
+
+  const calibrateStyle = useAnimatedStyle(() => ({
+    opacity: calibrateOpacity.value,
   }));
 
   return (
@@ -374,7 +383,7 @@ export function SlingshotScreen() {
           />
 
           {/* Affichage du Debug */}
-          <Text style={styles.debugText}>{debugText}</Text>
+          {/* <Text style={styles.debugText}>{debugText}</Text> */}
 
           {/* <Animated.View style={[ styles.circle, containerStyle, { width: circleSize, height: circleSize } ]}/> */}
           {/* Conteneur animé qui suit le doigt */}
@@ -416,13 +425,16 @@ export function SlingshotScreen() {
       </GestureDetector>
 
       {/* Calibrate again ? */}
-      <Pressable onPress={calibrate} style={styles.calibrate}>
+      <AnimatedPressable
+        onPress={calibrate}
+        style={[styles.calibrate, calibrateStyle]}
+      >
         <Image
           source={require("@/assets/images/buttons/btn-calibrate.png")}
           style={styles.calibrateImage}
           resizeMode="contain"
         ></Image>
-      </Pressable>
+      </AnimatedPressable>
     </GestureHandlerRootView>
   );
 }
@@ -458,7 +470,7 @@ const styles = StyleSheet.create({
   calibrate: {
     zIndex: 999,
     position: "absolute",
-    bottom: 200,
+    bottom: 40,
     right: 20,
     width: 150,
     height: 50,
