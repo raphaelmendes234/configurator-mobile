@@ -27,7 +27,7 @@ type GamePhase =
 
 const Manager: React.FC = () => {
   // État pour la phase de jeu (initialisé sur 'loading')
-  const [phase, setPhase] = useState<GamePhase>("waiting");
+  const [phase, setPhase] = useState<GamePhase>("title");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // 💡 Fonction de rappel (Callback) pour traiter les messages reçus
